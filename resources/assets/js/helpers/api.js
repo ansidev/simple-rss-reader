@@ -20,6 +20,17 @@ export function post(url, payload) {
     })
 }
 
+export function put(url, payload) {
+    return axios({
+        method: 'PUT',
+        url: url,
+        data: payload,
+        headers: {
+            'Authorization': `Bearer ${window.apiToken}`
+        }
+    })
+}
+
 // delete is reserved keyword
 export function del(url) {
     return axios({

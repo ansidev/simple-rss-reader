@@ -52,7 +52,8 @@
                             <label for="category">Category</label>
                             <select class="custom-select d-block w-100" id="category" required=""
                                     v-model="feed.category">
-                                <option v-for="category in categories.data" :value="category" :selected="{true: feed.category.id === category.id}">{{ category.name }}
+                                <option v-for="category in categories.data" :value="category"
+                                        :selected="{true: feed.category.id === category.id}">{{ category.name }}
                                 </option>
                             </select>
                             <div class="invalid-feedback">
@@ -68,7 +69,7 @@
 </template>
 
 <script>
-    import {get, post} from '../../helpers/api'
+    import {get, put} from '../../helpers/api'
     import {getCategories} from "../../helpers/categories";
 
     export default {
@@ -108,7 +109,7 @@
                 event.preventDefault();
                 let app = this;
                 let newFeed = app.feed;
-                post('/api/feeds/' + app.feedId, newFeed)
+                put('/api/feeds/' + app.feedId, newFeed)
                     .then(function (resp) {
                         app.$router.push({path: '/feeds'});
                     })

@@ -71,7 +71,7 @@ class FeedController extends Controller
         $feed->category()->associate($category);
         $feed->save();
 
-        return response()->json($feed, 200);
+        return response()->json($feed, 201);
     }
 
     /**
@@ -99,9 +99,32 @@ class FeedController extends Controller
     public function update(Request $request, $id)
     {
         $feed = Feed::findOrFail($id);
-        $feed->update($request->all());
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'description' => 'required|string',
+            'link' => 'required|active_url',
+            'published_at' => 'required|date',
+        ]);
+        if (!$request->has('category')) {
+            throw new BadRequestHttpException("Missing category");
+        }
+        $category = $request->get('category');
+        if (!array_key_exists('id', $category) || $category['id'] < 0){
+            throw new BadRequestHttpException("Invalid category");
+        }
+        $category = Category::findOrFail($category['id']);
 
-        return $feed;
+
+        $feed->title = $validatedData['title'];
+        $feed->content = $validatedData['content'];
+        $feed->description = $validatedData['description'];
+        $feed->link = $validatedData['link'];
+        $feed->published_at = $validatedData['published_at'];
+        $feed->category()->associate($category);
+        $feed->save();
+
+        return response()->json($feed, 200);
     }
 
     /**
