@@ -25,7 +25,7 @@ class CreateFeedsTable extends Migration
             $table->unsignedInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories');
 
-            $table->unsignedInteger('source_id');
+            $table->unsignedInteger('source_id')->nullable();
             $table->foreign('source_id')->references('id')->on('feed_sources');
 
         });

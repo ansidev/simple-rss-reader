@@ -10,7 +10,6 @@ use App\Feed\Utility\ConvertToDateTime;
 use App\Feed\Utility\ExtractUrls;
 use App\FeedSource;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
 
 class Feed extends Command
 {
