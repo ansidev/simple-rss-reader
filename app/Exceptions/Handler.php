@@ -6,6 +6,8 @@ use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 
 class Handler extends ExceptionHandler
 {
@@ -62,6 +64,11 @@ class Handler extends ExceptionHandler
         if ($exception instanceof ModelNotFoundException) {
             $message = $exception->getMessage();
             $statusCode = 404;
+        }
+
+        if ($exception instanceof MethodNotAllowedException || $exception instanceof MethodNotAllowedHttpException) {
+            $message = $exception->getMessage();
+            $statusCode = 405;
         }
 
         if ($exception instanceof BadRequestHttpException) {
