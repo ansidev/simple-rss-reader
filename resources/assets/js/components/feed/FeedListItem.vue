@@ -11,8 +11,9 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
                         <a class="btn btn-success" :href="data.link" role="button">Read</a>
-                        <a class="btn btn-warning" :href="'/feeds/' + data.id + '/edit'" role="button">Edit</a>
-                        <a class="btn btn-danger" :href="'/feeds/' + data.id + '/delete'" role="button">Delete</a>
+                        <router-link :to="{name: 'feedEdit', params: {id: data.id}}" class="btn btn-warning" role="button">Edit</router-link>
+                        <a class="btn btn-danger" href="#" role="button"
+                           v-on:click="deleteFeed(data.id, index)">Delete</a>
                     </div>
                 </div>
             </div>
@@ -21,14 +22,34 @@
 </template>
 
 <script>
+    import {del} from '../../helpers/api'
+
     export default {
         props: {
             data: {
+                required: true
+            },
+            index: {
                 required: true
             }
         },
         mounted() {
             console.log('Component mounted.');
+        },
+        methods: {
+            deleteFeed(id, index) {
+                if (confirm("Do you really want to delete it?")) {
+                    let app = this;
+                    del('/api/feeds/' + id)
+                        .then(function (response) {
+                            app.$emit('remove-feed', index);
+                        })
+                        .catch(function (response) {
+                            console.log(response);
+                            alert("Could not delete feed");
+                        });
+                }
+            }
         }
     }
 </script>

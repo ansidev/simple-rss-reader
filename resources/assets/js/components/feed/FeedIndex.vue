@@ -21,8 +21,7 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <feed-list-item v-for="(feed, index) in currentFeeds.data"
-                                :key="index" :data="feed" :order="index"></feed-list-item>
+                <feed-list-item v-for="(feed, index) in currentFeeds.data" :data="feed" :key="index" :index="index" @remove-feed="removeFeed"></feed-list-item>
             </div>
             <vue-pagination :pagination="currentFeeds" @paginate="getFeeds" :offset="4"></vue-pagination>
         </div>
@@ -81,7 +80,10 @@
                 }
                 this.currentFeeds.current_page = 1;
                 this.getFeeds();
+            },
+            removeFeed: function(index) {
+                this.currentFeeds.data.splice(index, 1);
             }
-        }
+        },
     }
 </script>

@@ -77,7 +77,8 @@
     <main class="py-4">
         <div class="container">
             <div class="row">
-                @yield('content')
+                <router-view name="feedIndex"></router-view>
+                <router-view></router-view>
             </div>
         </div>
     </main>

@@ -38,16 +38,6 @@ class FeedController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -92,7 +82,11 @@ class FeedController extends Controller
      */
     public function show($id)
     {
-        return Feed::findOrFail($id);
+        $feed = Feed::findOrFail($id);
+        $date = date_create($feed->published_at);
+        $feed->published_at = date_format($date, 'Y-m-d');
+        $feed->category = $feed->category;
+        return response()->json($feed);
     }
 
     /**

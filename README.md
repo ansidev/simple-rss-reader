@@ -19,3 +19,18 @@ Your task is to create a PHP application that is a feeds reader. The app can rea
 2. Start coding
 3. Use gitflow to manage branches on your repository
 4. Open a pull request to this repository after done
+
+## Output
+
+- App was built on top of Laravel framework
+- Setup database: php artisan migrate --seed
+- Grab feed: php artisan feed {urls}
+- Log file for feed job was located at: ./storage/feeds/logs/feed.log
+- You need to run: `npm install --save-dev` to install npm packages,
+then you run `npm run dev` or `npm run watch` for compiling css and js (for development) or `npm run prod` (for production).
+- Default login account:
+
+    - Username: johndoe@example.com
+    - Password: secret
+    
+- Run php artisan serve to start server at `http://localhost:8000/`

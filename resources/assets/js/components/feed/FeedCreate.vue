@@ -89,10 +89,8 @@
             });
         },
         methods: {
-            updateCategory: function (e) {
-                console.log(e.target.value);
-            },
             saveForm() {
+                event.preventDefault();
                 let app = this;
                 let newFeed = app.feed;
                 post('/api/feeds', newFeed)
