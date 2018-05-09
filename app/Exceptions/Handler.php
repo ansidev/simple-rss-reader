@@ -3,7 +3,9 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -29,7 +31,7 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param  \Exception  $exception
+     * @param  \Exception $exception
      * @return void
      */
     public function report(Exception $exception)
@@ -40,12 +42,35 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Exception $exception
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function render($request, Exception $exception)
     {
+        if ($request->wantsJson()) {
+            return $this->buildJsonResponse($exception);
+        }
         return parent::render($request, $exception);
+    }
+
+    private function buildJsonResponse($exception)
+    {
+        $message = "Internal Server Error";
+        $statusCode = 500;
+
+        if ($exception instanceof ModelNotFoundException) {
+            $message = $exception->getMessage();
+            $statusCode = 404;
+        }
+
+        if ($exception instanceof BadRequestHttpException) {
+            $message = $exception->getMessage();
+            $statusCode = 400;
+        }
+
+        return response()->json([
+            'data' => $message
+        ], $statusCode);
     }
 }
