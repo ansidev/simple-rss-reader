@@ -22,10 +22,10 @@ Your task is to create a PHP application that is a feeds reader. The app can rea
 
 ## Output
 
-- App was built on top of Laravel framework
-- Setup database: php artisan migrate --seed
-- Grab feed: php artisan feed {urls}
-- Log file for feed job was located at: ./storage/feeds/logs/feed.log
+- App was built on top of Laravel framework.
+- Setup database: `php artisan migrate --seed`.
+- Grab the feed: `php artisan feed {urls}`.
+- Log file for feed job was located at: `./storage/feeds/logs/feed.log`.
 - You need to run: `npm install --save-dev` to install npm packages,
 then you run `npm run dev` or `npm run watch` for compiling css and js (for development) or `npm run prod` (for production).
 - Default login account:
@@ -33,4 +33,4 @@ then you run `npm run dev` or `npm run watch` for compiling css and js (for deve
     - Username: johndoe@example.com
     - Password: secret
     
-- Run php artisan serve to start server at `http://localhost:8000/`
+- Run php artisan serve to start server at `http://localhost:8000/`.
