@@ -107,6 +107,10 @@ class Feed extends Command
                 $publishedAt = $this->timestampToDateTime($publishedAt);
             }
 
+            if (is_null($publishedAt)) {
+                $publishedAt = new \DateTime();
+            }
+
             $feed = new \App\Feed();
             $feed->title = $title;
             $feed->content = $content;
