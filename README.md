@@ -32,5 +32,5 @@ Your task is to create a PHP application that is a feeds reader. The app can rea
 
     - Username: johndoe@example.com
     - Password: secret
-    
+
 - Run `php artisan serve` to start server at `http://localhost:8000/`.
