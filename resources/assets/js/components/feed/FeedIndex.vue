@@ -27,7 +27,7 @@
                 <div class="row" v-else>
                     <div class="col-sm-12">
                         <div class="jumbotron">
-                            <p class="lead text-center">You have no feed</p>
+                            <p class="lead text-center">There are no feed</p>
                         </div>
                     </div>
                 </div>

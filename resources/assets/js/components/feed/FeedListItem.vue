@@ -7,7 +7,7 @@
                     <a class="text-dark" :href="data.link">{{ data.title }}</a>
                 </h3>
                 <div class="mb-1 text-muted">{{ data.published_at }}</div>
-                <p class="card-text mb-auto">{{ data.description }}</p>
+                <p class="card-text mb-auto" v-html="data.description"/>
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
                         <a class="btn btn-success" :href="data.link" role="button">Read</a>
@@ -53,9 +53,3 @@
         }
     }
 </script>
-
-<style scoped>
-    .feed-card {
-        height: 300px;
-    }
-</style>
