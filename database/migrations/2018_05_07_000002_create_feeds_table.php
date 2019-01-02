@@ -17,7 +17,7 @@ class CreateFeedsTable extends Migration
             $table->increments('id');
             $table->string('title')->nullable(false);
             $table->text('content');
-            $table->string('description');
+            $table->text('description');
             $table->string('link')->nullable(false);
             $table->dateTime('published_at');
             $table->timestamps();
