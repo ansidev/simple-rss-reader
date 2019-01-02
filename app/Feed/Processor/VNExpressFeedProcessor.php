@@ -10,6 +10,8 @@ class VNExpressFeedProcessor extends FeedProcessor
         'suc-khoe' => 'Sức khỏe',
         'kinh-doanh' => 'Kinh doanh',
         'travel-life' => 'Du lịch',
+        'du-lich' => 'Du lịch',
+        'goc-nhin' => 'Góc nhìn',
         'infographics' => 'Infographics',
         'doi-song' => 'Đời sống',
         'phap-luat' => 'Pháp luật',
