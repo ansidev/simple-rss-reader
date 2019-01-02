@@ -1,37 +1,47 @@
 <template>
-    <div class="card">
-        <div class="card-header">
-            <router-link :to="{name: 'feedCreate'}" class="btn btn-primary float-left">Create</router-link>
-            <div class="dropdown float-right">
-                <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="categoryFilter"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-text="selectedCategory">
-                </a>
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <router-link :to="{name: 'feedCreate'}" class="btn btn-primary float-left">Create</router-link>
+                <div class="dropdown float-right">
+                    <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="categoryFilter"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-text="selectedCategory">
+                    </a>
 
-                <div class="dropdown-menu" aria-labelledby="categoryFilter">
-                    <a class="dropdown-item" :class="{'active': selectedCategory === 'All'}"
-                       href="#" @click="filterFeedByCategory('all')">All
-                    </a>
-                    <a v-for="category in categories.data" class="dropdown-item"
-                       :class="{'active': selectedCategory === category.name}"
-                       v-bind:category-id="category.id" href="#" @click="filterFeedByCategory(category)">
-                        {{ category.name }}
-                    </a>
+                    <div class="dropdown-menu" aria-labelledby="categoryFilter">
+                        <a class="dropdown-item" :class="{'active': selectedCategory === 'All'}"
+                           href="#" @click="filterFeedByCategory('all')">All
+                        </a>
+                        <a v-for="category in categories.data" class="dropdown-item"
+                           :class="{'active': selectedCategory === category.name}"
+                           v-bind:category-id="category.id" href="#" @click="filterFeedByCategory(category)">
+                            {{ category.name }}
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <feed-list-item v-for="(feed, index) in currentFeeds.data" :data="feed" :key="index" :index="index" @remove-feed="removeFeed"></feed-list-item>
+            <div class="card-body">
+                <div class="row" v-if="currentFeeds.data && currentFeeds.data.length > 0">
+                    <feed-list-item v-for="(feed, index) in currentFeeds.data" :data="feed" :key="index" :index="index" @remove-feed="removeFeed"></feed-list-item>
+                </div>
+                <div class="row" v-else>
+                    <div class="col-sm-12">
+                        <div class="jumbotron">
+                            <p class="lead text-center">You have no feed</p>
+                        </div>
+                    </div>
+                </div>
+                <pagination :pagination="currentFeeds" @paginate="getFeeds" :offset="4"></pagination>
             </div>
-            <vue-pagination :pagination="currentFeeds" @paginate="getFeeds" :offset="4"></vue-pagination>
         </div>
     </div>
 </template>
 
 <script>
     import {get} from '../../helpers/api'
-    import {getCategories} from "../../helpers/categories";
+    import {getCategories} from "../../helpers/categories"
     import FeedListItem from './FeedListItem'
+    import Pagination from '../common/Pagination'
 
     export default {
         mounted() {
@@ -50,7 +60,8 @@
             }
         },
         components: {
-            FeedListItem
+            FeedListItem,
+            Pagination
         },
         methods: {
             getFeeds() {
