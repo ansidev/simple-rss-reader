@@ -27,16 +27,20 @@ class FeedProcessor
         $link = $item->link;
 
         if (is_null($title) || is_null($link)) {
-            return;
+            return "Feed is invalid!";
+        }
+
+        if (Feed::where('link', '=', $link)->exists()) {
+            return "Existing feed: $title | $link.";
         }
 
         if (!array_key_exists($url, $this->sources)) {
             $this->sources[$url] = $this->getSource($url);
         }
 
-        $categoryName = $this->extractCategoryName($item);
+        list($categoryName, $categorySlug) = $this->extractCategoryData($item);
         if (!array_key_exists($categoryName, $this->categories)) {
-            $this->categories[$categoryName] = $this->getCategory($categoryName);
+            $this->categories[$categoryName] = $this->getCategory($categoryName, $categorySlug);
         }
 
         $content = $item->{'content:encoded'};
@@ -58,11 +62,11 @@ class FeedProcessor
 
     /**
      * @param \SimpleXMLElement $item
-     * @return string
+     * @return array
      */
-    protected function extractCategoryName(\SimpleXMLElement $item): string
+    protected function extractCategoryData(\SimpleXMLElement $item): array
     {
-        return is_null($item->category) ? FeedConstant::DEFAULT_CATEGORY : $item->category->label;
+        return is_null($item->category) ? [FeedConstant::DEFAULT_CATEGORY, FeedConstant::DEFAULT_CATEGORY_SLUG]: [$item->category->label, $item->category->label];
     }
 
     protected function getContent(\SimpleXMLElement $item)
@@ -86,13 +90,14 @@ class FeedProcessor
         return $source;
     }
 
-    private function getCategory(string $categoryName)
+    private function getCategory(string $categoryName, string $categorySlug)
     {
         $category = Category::where('name', $categoryName)->first();
         if (is_null($category)) {
             $category = Category::create(
                 [
                     'name' => $categoryName,
+                    'slug' => $categorySlug,
                     'created_at' => new \DateTime(),
                 ]
             );

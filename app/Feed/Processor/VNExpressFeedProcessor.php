@@ -29,18 +29,25 @@ class VNExpressFeedProcessor extends FeedProcessor
         'oto-xe-may' => 'Ô tô & xe máy',
         'tam-su' => 'Tâm sự',
         'cuoi' => 'Cười',
+        'news' => 'Tin tức',
+        'xa-hoi' => 'Xã hội'
     ];
 
     /**
      * @param \SimpleXMLElement $item
-     * @return string
+     * @return array
      */
-    protected function extractCategoryName(\SimpleXMLElement $item): string
+    protected function extractCategoryData(\SimpleXMLElement $item): array
     {
         $link = $item->link;
         $linkParts = explode('/', $link);
+        if (count($linkParts) < 2) {
+            return ['Uncategorized', 'uncategorized'];
+        }
         $categorySlug = $linkParts[count($linkParts) - 2];
-        return $this->categoryMap[$categorySlug] ?? $categorySlug;
+        $categoryName = $this->categoryMap[$categorySlug] ?? $categorySlug;
+
+        return [$categoryName, $categorySlug];
     }
 
     protected function getContent(\SimpleXMLElement $item)
